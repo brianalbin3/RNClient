@@ -1,6 +1,5 @@
-header {
+.app-bar-container {
     display: flex;
-    justify-content: space-around;
 }
 
 /* TODO: Do I need this */
@@ -8,7 +7,7 @@ header {
     flex-grow: 1;
 }
 
-.icons-container {
+nav {
     display: flex;
     height: 100%;
     align-items: center;

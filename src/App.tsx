@@ -27,14 +27,14 @@ function App() {
   // TODO: Two headers
   return (
     <div>
-      <header>
+      <div className="app-bar-container">
         <AppBar position="static">
           <Toolbar>
             <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
               <MenuIcon />
             </IconButton>
             <Typography variant="h6" className="title">RoboNurse</Typography>
-            <div className="icons-container">
+            <nav>
                 <div className="icon-container">
                   <LocalHospitalIcon className="icon" />
                   <div className="icon-description">Medicines</div>
@@ -55,10 +55,10 @@ function App() {
                   <AccountCircle className="icon" />
                   <div className="icon-description">Account</div>
                 </div>
-            </div>
+            </nav>
           </Toolbar>
         </AppBar>
-      </header>
+      </div>
       <main></main>
     </div>
   );

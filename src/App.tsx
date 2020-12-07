@@ -14,59 +14,17 @@ import LocalHospitalIcon from '@material-ui/icons/LocalHospital';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
-    root: {
-      flexGrow: 1,
-    },
     menuButton: {
       marginRight: theme.spacing(2),
     },
-    title: {
-      flexGrow: 1,
-    },
-    iconsContainer: {
-      display: 'flex',
-      height: '100%',
-      alignItems: 'center'
-    },
-    iconContainer: {
-      width: '64px',
-      display: 'flex',
-      flexDirection: 'column',
-      alignItems: 'center',
-      justifyContent: 'center',
-      marginLeft: '8px',
-      marginRight: '8px',
-      height: '100%'
-    },
-    icon: {
-      fontSize: '24px',
-      width: '24px',
-      height: '24px',
-      marginBottom: '2px'
-    },
-    iconDescription: {
-      color: 'white',
-      fontFamily: 'Roboto',
-      fontSize: '12px',
-      textAlign: 'center',
-      cursor: 'pointer'
-    },
-    iconContainerActive: {
-      backgroundColor: 'white'
-    },
-    iconActive: {
-      color: '#009688'
-    },
-    iconDescriptionActive: {
-      color: '#009688'
-    }
-
   }),
 );
 
 function App() {
   const classes = useStyles();
 
+  // TODO: Change icons-container to nav
+  // TODO: Two headers
   return (
     <div>
       <header>
@@ -75,27 +33,27 @@ function App() {
             <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
               <MenuIcon />
             </IconButton>
-            <Typography variant="h6" className={classes.title}>RoboNurse</Typography>
-            <div className={classes.iconsContainer}>
-                <div className={classes.iconContainer}>
-                  <LocalHospitalIcon className={classes.icon} />
-                  <div className={classes.iconDescription}>Medicines</div>
+            <Typography variant="h6" className="title">RoboNurse</Typography>
+            <div className="icons-container">
+                <div className="icon-container">
+                  <LocalHospitalIcon className="icon" />
+                  <div className="icon-description">Medicines</div>
                 </div>
-                <div className={classes.iconContainer}>
-                  <SettingsPhoneIcon className={classes.icon} />
-                  <div className={classes.iconDescription}>Calls</div>
+                <div className="icon-container icon-container-active">
+                  <SettingsPhoneIcon className="icon icon-active" />
+                  <div className="icon-description icon-description-active">Calls</div>
                 </div>
-                <div className={classes.iconContainer}>
-                  <AccessAlarmIcon className={classes.icon} />
-                  <div className={classes.iconDescription}>Alarms</div>
+                <div className="icon-container">
+                  <AccessAlarmIcon className="icon" />
+                  <div className="icon-description">Alarms</div>
                 </div>
-                <div className={classes.iconContainer}>
-                  <EventIcon className={classes.icon} />
-                  <div className={classes.iconDescription}>Schedule</div>
+                <div className="icon-container">
+                  <EventIcon className="icon" />
+                  <div className="icon-description">Schedule</div>
                 </div>
-                <div className={classes.iconContainer}>
-                  <AccountCircle className={classes.icon} />
-                  <div className={classes.iconDescription}>Account</div>
+                <div className="icon-container">
+                  <AccountCircle className="icon" />
+                  <div className="icon-description">Account</div>
                 </div>
             </div>
           </Toolbar>

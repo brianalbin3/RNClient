@@ -7,6 +7,10 @@
     flex-grow: 1;
 }
 
+.title:after {
+    content: 'RoboNurse';
+}
+
 nav {
     display: flex;
     height: 100%;
@@ -50,4 +54,20 @@ nav {
 
 .icon-container:hover .icon-description, .icon-description-active {
     color: #009688;
+}
+
+@media screen and (max-width: 768px) {
+    .title:after {
+        content: 'RN';
+    }
+
+    .icon-container {
+        width: 48px;
+        margin-left: 0px;
+        margin-right: 0px;
+    }
+
+    .icon-description {
+        display: none;
+    }
 }

@@ -1,3 +1,5 @@
+import { ReactChildren, ReactChild } from 'react';
+
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
@@ -7,7 +9,11 @@ import EventIcon from '@material-ui/icons/Event';
 import SettingsPhoneIcon from '@material-ui/icons/SettingsPhone';
 import LocalHospitalIcon from '@material-ui/icons/LocalHospital';
 
-var Main = (props: any) => { // TODO: Get rid of any type
+interface MainProps {
+  children: any; /* ReactChild | ReactChildren; */
+}
+
+var Main = (props: MainProps) => {
     return (
       <div>
         <div className="app-bar-container">

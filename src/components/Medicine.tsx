@@ -1,9 +1,23 @@
-function Medicine() {
-    return (
-      <div>
-          Medicine
-      </div>
-    );
-  }
+import React, { Component } from 'react';
+
+type MedicineState = {
   
-  export default Medicine;
+}
+
+type MedicineProps = {
+
+}
+
+class Medicine extends React.Component<{}, MedicineState> {
+    constructor(props: MedicineProps) {
+        super(props);
+    }
+
+    render() {
+        return (
+            <h1>Medicine</h1>
+        );
+    }
+}
+
+export default Medicine;

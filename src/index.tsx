@@ -4,8 +4,6 @@ import './index.css';
 import App from './App';
 import { ThemeProvider} from '@material-ui/core/styles';
 
-import { BrowserRouter } from 'react-router-dom';
-
 import theme from './theme';
 
 ReactDOM.render(

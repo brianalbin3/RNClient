@@ -27,6 +27,7 @@ nav {
     margin-right: 8px;
     height: 100%;
     cursor: pointer;
+    text-decoration: none;
 }
 
 .icon-container .icon {
@@ -34,6 +35,7 @@ nav {
     width: 24px;
     height: 24px;
     margin-bottom: 2px;
+    color: white;
 }
 
 .icon-description {
@@ -48,11 +50,11 @@ nav {
     background-color: white;
 }
 
-.icon-container:hover .icon, .icon-container-active .icon-active {
+.icon-container:hover .icon, .icon-container-active .icon {
     color: #009688;
 }
 
-.icon-container:hover .icon-description, .icon-description-active {
+.icon-container:hover .icon-description, .icon-container-active .icon-description {
     color: #009688;
 }
 

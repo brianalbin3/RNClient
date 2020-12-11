@@ -1,6 +1,6 @@
 import React from 'react';
 import { createBrowserHistory } from 'history';
-import { Route, Router } from 'react-router-dom';
+import { Route, Router, useHistory } from 'react-router-dom';
 
 import ContactSettings from './components/ContactSettings';
 import Main from './components/Main';

@@ -1,6 +1,6 @@
 import React from 'react';
 import { createBrowserHistory } from 'history';
-import { Route, Router, useHistory } from 'react-router-dom';
+import { Route, Router, useHistory, Switch } from 'react-router-dom';
 
 import ContactSettings from './components/ContactSettings';
 import Main from './components/Main';
@@ -8,7 +8,7 @@ import Medicine from './components/Medicine';
 import Alarms from './components/Alarms';
 import Schedule from './components/Schedule';
 import AccountSettings from './components/AccountSettings';
-
+import Splash from './components/Splash';
 
 import './App.css';
 const history = createBrowserHistory();
@@ -16,17 +16,18 @@ const history = createBrowserHistory();
 
 function App() {
   return (
-    <div>
-      <Router history={history}>
+    <Router history={history}>
+      <Route exact path="/" component={Splash} />
+      <Route path="/features">
         <Main>
-          <Route path="/medicine" component={Medicine} />
-          <Route path="/contactsettings" component={ContactSettings} />
-          <Route path="/alarms" component={Alarms} />
-          <Route path="/schedule" component={Schedule} />
-          <Route path="/accountsettings" component={AccountSettings} />
+          <Route path="/features/medicine" component={Medicine} />
+          <Route path="/features/contactsettings" component={ContactSettings} />
+          <Route path="/features/alarms" component={Alarms} />
+          <Route path="/features/schedule" component={Schedule} />
+          <Route path="/features/accountsettings" component={AccountSettings} />
         </Main>
-      </Router>
-    </div>
+      </Route>
+    </Router>
   );
 }
 

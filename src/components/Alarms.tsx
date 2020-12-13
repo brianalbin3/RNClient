@@ -15,10 +15,6 @@ class Alarms extends React.Component<{}, AlarmsState> {
 
     render() {
 
-        let x: number;
-
-        x = "234234";
-
         return (
             <h1>Alarms</h1>
         );

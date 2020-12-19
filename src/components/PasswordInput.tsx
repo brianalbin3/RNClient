@@ -21,6 +21,7 @@ type PasswordInputProps = {
     helperText?: string,
     label?: string,
     className?: string,
+    inputProps?: object,
 }
 
 class PasswordInput extends Component<PasswordInputProps, PasswordInputState> {

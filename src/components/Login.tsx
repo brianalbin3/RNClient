@@ -28,7 +28,7 @@ class Login extends React.Component<{}, LoginState> {
                 <div className="login">
                     <Typography className="login-header" color="primary" variant="h4">Login to Your Account</Typography>
                     <form className="login-form">
-                        <TextField className="login-txt-field" id="filled-basic" label="Email" variant="filled" error={false} helperText="Invalid email"/>
+                        <TextField className="login-txt-field" id="filled-basic" label="Email" variant="filled" error={false} helperText="Invalid email" inputProps={{ maxLength: 32 }}/>
                         <PasswordInput className="login-txt-field" error={true} helperText="Invalid password" label="Password"/>
                         <Button className="login-btn" variant="contained" color="primary" size="medium">Login</Button>
                         <div className="non-important-btns-container">

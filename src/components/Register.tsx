@@ -139,7 +139,7 @@ class Register extends React.Component<{}, RegisterState> {
                     <form className="register-form">
                         <TextField onChange={this.handleEmailChange} name="email" className="register-txt-field" id="filled-basic" label="Email" variant="filled" error={this.emailHasError() || this.state.emailIsTaken} helperText={this.getEmailHelperText()}/>
                 
-                        <PasswordInput onChange={this.handlePasswordChange} className="register-txt-field" label="Password" error={this.passwordHasError()} helperText={this.getPasswordHelperText()} />
+                        <PasswordInput inputProps={{ maxLength: 32 }} onChange={this.handlePasswordChange} className="register-txt-field" label="Password" error={this.passwordHasError()} helperText={this.getPasswordHelperText()} />
 
                         <Button onClick={this.handleSubmit} className="register-btn" variant="contained" color="primary" size="medium">Register</Button>
 

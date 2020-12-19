@@ -1,13 +1,10 @@
 import React, { Component } from 'react';
 
-import FormControl from '@material-ui/core/FormControl';
-import Input from '@material-ui/core/Input';
-import InputLabel from '@material-ui/core/InputLabel';
-import FormHelperText from '@material-ui/core/FormHelperText';
-import OutlinedInput from '@material-ui/core/OutlinedInput';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
+
+import PasswordInput from './PasswordInput';
 
 
 import './Login.css';
@@ -31,8 +28,8 @@ class Login extends React.Component<{}, LoginState> {
                 <div className="login">
                     <Typography className="login-header" color="primary" variant="h4">Login to Your Account</Typography>
                     <form className="login-form">
-                        <TextField className="login-txt-field" id="filled-basic" label="Email" variant="filled" error={true} helperText="Invalid email"/>
-                        <TextField className="login-txt-field" id="standard-password-input" variant="filled" label="Password" type="password" error={true} helperText="Invalid password"/>
+                        <TextField className="login-txt-field" id="filled-basic" label="Email" variant="filled" error={false} helperText="Invalid email"/>
+                        <PasswordInput className="login-txt-field" error={true} helperText="Invalid password" label="Password"/>
                         <Button className="login-btn" variant="contained" color="primary" size="medium">Login</Button>
                         <div className="non-important-btns-container">
                             <Button className="non-important-btn" color="primary">Create Account</Button>

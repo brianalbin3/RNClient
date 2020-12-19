@@ -10,6 +10,8 @@ import Schedule from './components/Schedule';
 import AccountSettings from './components/AccountSettings';
 import Splash from './components/Splash';
 import Login from './components/Login';
+import Register from './components/Register';
+
 
 import './App.css';
 const history = createBrowserHistory();
@@ -18,6 +20,7 @@ const history = createBrowserHistory();
 function App() {
   return (
     <Router history={history}>
+      <Route exact path="/register" component={Register} />
       <Route exact path="/login" component={Login} />
       <Route exact path="/" component={Splash} />
       <Route path="/features">

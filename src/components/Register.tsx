@@ -40,7 +40,6 @@ class Register extends React.Component<{}, RegisterState> {
         this.setState({email, emailIsTouched: true, emailIsTaken: false});
     }
 
-    // TODO: Test on the server side too, get rid of parameter
     isValidEmail(): boolean {
         const email = this.state.email;
 

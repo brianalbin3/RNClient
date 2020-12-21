@@ -133,10 +133,10 @@ class Register extends React.Component<{}, RegisterState> {
 
     render(): JSX.Element {
         return (
-            <div className="register-container">
-                <div className="register">
-                    <Typography className="register-header" color="primary" variant="h4">Create a New Account</Typography>
-                    <form className="register-form">
+            <div className="auth-page-container">
+                <div className="auth-page">
+                    <Typography className="auth-header" color="primary" variant="h4">Create a New Account</Typography>
+                    <form className="auth-form">
                         <TextField onChange={this.handleEmailChange} name="email" className="register-txt-field" label="Email" variant="filled" error={this.emailHasError() || this.state.emailIsTaken} helperText={this.getEmailHelperText()}/>
                 
                         <PasswordInput inputProps={{ maxLength: 32 }} onChange={this.handlePasswordChange} className="register-txt-field" label="Password" error={this.passwordHasError()} helperText={this.getPasswordHelperText()} />

@@ -1,76 +1,13 @@
-.login-container {
-    width: 100%;
-    height: 100%;
-    background-color:   #f0f2f5;
-    display: flex;
-    justify-content: center;
-}
-
-.login {
-    background-color: white;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-top: 42px;
-    padding-left: 4px;
-    padding-right: 4px;
-    width: 100%;
-    height: min-content;
-}
-
-.login-form {
-    margin-top: 12px;
-    display: flex;
-    flex-direction: column;   
-}
-
-.login-form .login-txt-field {
+.auth-form .login-txt-field {
     margin-bottom: 16px;
 }
 
-.non-important-btns-container {
-    margin-top: 24px;
-    display: flex;
-    justify-content: space-evenly;
-}
-
-.login-form .non-important-btn {
-    text-transform: none;
-    width: 140px;
-    margin-left: 0;
-    margin-right: 0;
-}
-
-.login .login-header {
-    margin-top: 8px;
-}
-
-.login .login-btn {
+.auth-page .login-btn {
     margin-top: 8px;
     width: 300px;
 }
 
-.login .login-err {
+.auth-page .login-err {
     margin-top: 16px;
     width: 300px;
-}
-
-@media screen and (min-width: 768px) {
-    .login-container {
-        align-items: center;
-    }
-
-    .login-header {
-        margin-bottom: 12px;
-    }
-
-    .login {
-        border-radius: 4px;
-        width: 530px;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, .1), 0 8px 16px rgba(0, 0, 0, .1);
-        margin-top: 0;
-        padding-top: 8px;
-        padding-bottom: 8px;
-    }
-
 }

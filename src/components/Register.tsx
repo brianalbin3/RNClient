@@ -30,9 +30,9 @@ class Register extends React.Component<{}, RegisterState> {
 
         this.state = { email: '', password: '', emailIsTouched: false, passwordIsTouched: false, submitIsTouched: false, emailIsTaken: false, internalServerError: false };
         
-        this.handleSubmit = this.handleSubmit.bind(this); 
         this.handleEmailChange = this.handleEmailChange.bind(this);
         this.handlePasswordChange = this.handlePasswordChange.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this); 
     }
 
     handleEmailChange(e: any) {
@@ -137,7 +137,7 @@ class Register extends React.Component<{}, RegisterState> {
                 <div className="register">
                     <Typography className="register-header" color="primary" variant="h4">Create a New Account</Typography>
                     <form className="register-form">
-                        <TextField onChange={this.handleEmailChange} name="email" className="register-txt-field" id="filled-basic" label="Email" variant="filled" error={this.emailHasError() || this.state.emailIsTaken} helperText={this.getEmailHelperText()}/>
+                        <TextField onChange={this.handleEmailChange} name="email" className="register-txt-field" label="Email" variant="filled" error={this.emailHasError() || this.state.emailIsTaken} helperText={this.getEmailHelperText()}/>
                 
                         <PasswordInput inputProps={{ maxLength: 32 }} onChange={this.handlePasswordChange} className="register-txt-field" label="Password" error={this.passwordHasError()} helperText={this.getPasswordHelperText()} />
 

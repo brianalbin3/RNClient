@@ -1,0 +1,4 @@
+/* Treating these as global styles */
+.no-underline {
+    text-decoration: none;
+}

@@ -29,6 +29,7 @@
 }
 
 .non-important-btns-container {
+    margin-top: 24px;
     display: flex;
     justify-content: space-evenly;
 }
@@ -46,7 +47,11 @@
 
 .login .login-btn {
     margin-top: 8px;
-    margin-bottom: 32px;
+    width: 300px;
+}
+
+.login .login-err {
+    margin-top: 16px;
     width: 300px;
 }
 

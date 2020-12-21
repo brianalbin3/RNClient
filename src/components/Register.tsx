@@ -9,6 +9,8 @@ import PasswordInput from './PasswordInput';
 import * as auth from '../api/auth';
 
 
+import { Link } from 'react-router-dom';
+
 
 import './Register.css';
 
@@ -138,12 +140,14 @@ class Register extends React.Component<{}, RegisterState> {
                     <Typography className="auth-header" color="primary" variant="h4">Create a New Account</Typography>
                     <form className="auth-form">
                         <TextField onChange={this.handleEmailChange} name="email" className="auth-txt-field" label="Email" variant="filled" error={this.emailHasError() || this.state.emailIsTaken} helperText={this.getEmailHelperText()}/>
-                
                         <PasswordInput inputProps={{ maxLength: 32 }} onChange={this.handlePasswordChange} className="auth-txt-field" label="Password" error={this.passwordHasError()} helperText={this.getPasswordHelperText()} />
-
-                        <Button onClick={this.handleSubmit} className="register-btn" variant="contained" color="primary" size="medium">Register</Button>
-
-                        <FormHelperText className={ this.hasIternalServerError() ? "" : "display-none"} error={true}>Uh-oh! A problem occured. Please refresh the page and try again.</FormHelperText>
+                        <Button onClick={this.handleSubmit} className="auth-btn" variant="contained" color="primary" size="medium">Register</Button>
+                        <FormHelperText className={`auth-err ${this.hasIternalServerError() ? "" : "display-none"}`} error={true}>Uh-oh! A problem occured. Please refresh the page and try again.</FormHelperText>
+                        <div className="non-important-btns-container">
+                            <Link className="no-underline" to="/login">
+                                <Button className="already-registered-btn non-important-btn" color="primary">Already Have an Account?</Button>
+                            </Link>
+                        </div>
                     </form>
                 </div>
             </div>

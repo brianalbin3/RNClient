@@ -25,11 +25,13 @@
     padding-right: 4px;
     width: 100%;
     height: min-content;
+    padding-top: 8px;
+    padding-bottom: 8px;
 }
-
+/* 
 .auth-page .auth-header {
     margin-top: 8px;
-}
+} */
 
 .auth-form {
     margin-top: 12px;
@@ -41,19 +43,30 @@
     margin-bottom: 16px;
 }
 
-form .non-important-btns-container {
-    margin-top: 24px;
+.auth-page .auth-btn {
+    margin-top: 8px;
+    margin-bottom: 8px;
+    width: 300px;
+}
+
+.auth-page .auth-err {
+    text-align: center;
+    width: 300px;
+    margin-top: 12px;
+}
+
+.auth-form .non-important-btns-container {
+    margin-top: 32px;
     display: flex;
     justify-content: space-evenly;
 }
 
-div .non-important-btn {
+.non-important-btns-container .non-important-btn {
     text-transform: none;
     width: 140px;
     margin-left: 0;
     margin-right: 0;
 }
-
 
 @media screen and (min-width: 768px) {
     .auth-page-container {

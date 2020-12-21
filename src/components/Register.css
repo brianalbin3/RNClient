@@ -1,11 +1,3 @@
-.auth-page .register-header {
-    margin-top: 8px;
-}
-
-.auth-form .register-txt-field {
-    margin-bottom: 16px;
-}
-
 .auth-page .register-btn {
     margin-top: 8px;
     margin-bottom: 32px;
@@ -15,10 +7,4 @@
 .auth-page .register-err {
     text-align: center;
     width: 300px;
-}
-
-@media screen and (min-width: 768px) {
-    .register-header {
-        margin-bottom: 12px;
-    }
 }

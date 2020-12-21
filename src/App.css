@@ -37,6 +37,10 @@
     flex-direction: column;       
 }
 
+.auth-form .auth-txt-field {
+    margin-bottom: 16px;
+}
+
 form .non-important-btns-container {
     margin-top: 24px;
     display: flex;

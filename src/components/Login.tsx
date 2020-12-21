@@ -105,7 +105,7 @@ class Login extends React.Component<{}, LoginState> {
                 <div className="auth-page">
                     <Typography className="auth-header" color="primary" variant="h4">Login to Your Account</Typography>
                     <form className="auth-form">
-                        <TextField onChange={this.handleEmailChange} className="login-txt-field" label="Email" variant="filled" error={this.emailHasError()} helperText="Enter your email"/>
+                        <TextField onChange={this.handleEmailChange} className="auth-txt-field" label="Email" variant="filled" error={this.emailHasError()} helperText="Enter your email"/>
                         <PasswordInput onChange={this.handlePasswordChange} inputProps={{ maxLength: 32 }} className="login-txt-field" error={this.passwordHasError()} helperText="Enter your password" label="Password"/>
                         <Button onClick={this.handleSubmit} className="login-btn" variant="contained" color="primary" size="medium">Login</Button>
                         <FormHelperText className={`login-err ${this.hasFormError() ? "" : "display-none"}`} error={true}>{this.getFormErrorText()}</FormHelperText>

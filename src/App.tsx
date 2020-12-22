@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { createContext, useState, useContext } from 'react';
 import { createBrowserHistory } from 'history';
 import { Route, Router, useHistory, Switch } from 'react-router-dom';
 
@@ -12,18 +12,33 @@ import Splash from './components/Splash';
 import Login from './components/Login';
 import Register from './components/Register';
 
+import { AuthContextConsumer } from './contexts/authContext';
+
+import PrivateRoute from './components/PrivateRoute';
 
 import './App.css';
+
 const history = createBrowserHistory();
 
 
 function App() {
   return (
+<div>
+    <AuthContextConsumer>
+          {
+
+          (context) => { return context.isLoggedIn ? (<div>Logged In</div>)
+            : (<div>Not logged in</div>)
+          }
+          
+          }
+        </AuthContextConsumer>
+
     <Router history={history}>
       <Route exact path="/register" component={Register} />
       <Route exact path="/login" component={Login} />
       <Route exact path="/" component={Splash} />
-      <Route path="/features">
+      <PrivateRoute path="/features">
         <Main>
           <Route path="/features/medicine" component={Medicine} />
           <Route path="/features/contactsettings" component={ContactSettings} />
@@ -31,8 +46,9 @@ function App() {
           <Route path="/features/schedule" component={Schedule} />
           <Route path="/features/accountsettings" component={AccountSettings} />
         </Main>
-      </Route>
+      </PrivateRoute>
     </Router>
+    </div>
   );
 }
 

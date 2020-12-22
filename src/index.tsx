@@ -4,13 +4,17 @@ import './index.css';
 import App from './App';
 import { ThemeProvider, responsiveFontSizes } from '@material-ui/core/styles';
 
+import { AuthContextProvider } from "./contexts/authContext";
+
 import theme from './theme';
 
 ReactDOM.render(
   <React.StrictMode>
+    <AuthContextProvider>
       <ThemeProvider theme={theme}>
         <App />
       </ThemeProvider>
+    </AuthContextProvider>
   </React.StrictMode>,
   document.getElementById('root')
 );

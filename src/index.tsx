@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
-import { ThemeProvider, responsiveFontSizes } from '@material-ui/core/styles';
+import { ThemeProvider } from '@material-ui/core/styles';
 
 import { AuthContextProvider } from "./contexts/authContext";
 

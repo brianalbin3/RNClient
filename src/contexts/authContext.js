@@ -1,25 +1,24 @@
 import React, { Component } from "react";
+import * as auth from '../api/auth';
+
 const { Provider, Consumer } = React.createContext();
 
 class AuthContextProvider extends Component {
   state = {
-    isLoggedIn: false
+    isLoggedIn: auth.hasLoginCookie()
   };
 
-  toggleAuth = () => {
-    console.log("in toggleAuth")
-    // this.setState(prevState => {
-    //   return {
-    //     isLoggedIn: prevState.isLoggedIn
-    //   };
-    // });
-
+  login = () => {
     this.setState({ isLoggedIn: true})
+  };
+
+  logout = () => {
+    this.setState({ isLoggedIn: false})
   };
 
   render() {
     return (
-      <Provider value={{ isLoggedIn: this.state.isLoggedIn, toggleAuth: this.toggleAuth }}>
+      <Provider value={{ isLoggedIn: this.state.isLoggedIn, login: this.login, logout: this.logout }}>
         {this.props.children}
       </Provider>
     );

@@ -1,12 +1,15 @@
 import React, { Component } from 'react';
-
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import PasswordInput from './PasswordInput';
 
+
+
 import * as auth from '../api/auth';
+
+import { AuthContextConsumer } from '../contexts/authContext';
 
 
 import { Link } from 'react-router-dom';
@@ -24,9 +27,11 @@ type RegisterState = {
     internalServerError: boolean
 }
 
-type RegisterProps = {}
+type RegisterProps = {
+    history: any // TODO: Type
+}
 
-class Register extends React.Component<{}, RegisterState> {
+class Register extends React.Component<RegisterProps, RegisterState> {
     constructor(props: RegisterProps) {
         super(props);
 
@@ -47,7 +52,7 @@ class Register extends React.Component<{}, RegisterState> {
 
         const regex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
-        return regex.test(String(email).toLowerCase());
+        return regex.test(email);
     }
 
     passwordHasCorrectLength(): boolean {
@@ -108,7 +113,7 @@ class Register extends React.Component<{}, RegisterState> {
         return this.state.internalServerError;
     }
 
-    async handleSubmit() {
+    async handleSubmit(callback: any) {
         const { email, password } = this.state;
 
         this.setState({submitIsTouched: true, internalServerError: false});
@@ -119,6 +124,10 @@ class Register extends React.Component<{}, RegisterState> {
 
         try {
             await auth.register(email,password);
+            
+            callback();
+   
+            this.props.history.push('/features/schedule');
         }
         catch ( error ) {
             if ( error.response.status === 409 ) {
@@ -141,7 +150,11 @@ class Register extends React.Component<{}, RegisterState> {
                     <form className="auth-form">
                         <TextField onChange={this.handleEmailChange} name="email" className="auth-txt-field" label="Email" variant="filled" error={this.emailHasError() || this.state.emailIsTaken} helperText={this.getEmailHelperText()}/>
                         <PasswordInput inputProps={{ maxLength: 32 }} onChange={this.handlePasswordChange} className="auth-txt-field" label="Password" error={this.passwordHasError()} helperText={this.getPasswordHelperText()} />
-                        <Button onClick={this.handleSubmit} className="auth-btn" variant="contained" color="primary" size="medium">Register</Button>
+                        <AuthContextConsumer>
+                        {context => (
+                            <Button onClick={e => this.handleSubmit(context.login)} className="auth-btn" variant="contained" color="primary" size="medium">Register</Button>
+                        )}
+                        </AuthContextConsumer>
                         <FormHelperText className={`auth-err ${this.hasIternalServerError() ? "" : "display-none"}`} error={true}>Uh-oh! A problem occured. Please refresh the page and try again.</FormHelperText>
                         <div className="non-important-btns-container">
                             <Link className="no-underline" to="/login">

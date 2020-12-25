@@ -1,6 +1,6 @@
 import React, { createContext, useState, useContext } from 'react';
-import { createBrowserHistory } from 'history';
-import { Route, Router, useHistory, Switch } from 'react-router-dom';
+// import { createBrowserHistory } from 'history';
+import { Route, BrowserRouter as Router } from 'react-router-dom';
 
 import ContactSettings from './components/ContactSettings';
 import Main from './components/Main';
@@ -18,8 +18,6 @@ import PrivateRoute from './components/PrivateRoute';
 
 import './App.css';
 
-const history = createBrowserHistory();
-
 
 function App() {
   return (
@@ -32,9 +30,9 @@ function App() {
           }
           
           }
-        </AuthContextConsumer>
+    </AuthContextConsumer>
 
-    <Router history={history}>
+    <Router>
       <Route exact path="/register" component={Register} />
       <Route exact path="/login" component={Login} />
       <Route exact path="/" component={Splash} />

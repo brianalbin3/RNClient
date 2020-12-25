@@ -1,5 +1,4 @@
 import React, { Component, useContext } from 'react';
-
 import { Link } from 'react-router-dom';
 
 import Typography from '@material-ui/core/Typography';
@@ -29,11 +28,11 @@ type LoginState = {
     loginFailureType: LoginFailureType
 }
 
-type LoginProps = {}
+type LoginProps = {
+    history: any // TODO: Fix this type
+}
 
-
-
-class Login extends React.Component<{}, LoginState> {
+class Login extends React.Component<LoginProps, LoginState> {
     constructor(props: LoginProps) {
         super(props);
 
@@ -75,10 +74,10 @@ class Login extends React.Component<{}, LoginState> {
             return 'Uh-oh! A problem occured. Please refresh the page and try again.';
         }
 
-        return "";
+        return '';
     }
 
-    async handleSubmit(func: any) {
+    async handleSubmit(callback: any) {
         const { email, password } = this.state;
 
         this.setState({submitIsTouched: true, loginFailureType: LoginFailureType.NONE});
@@ -88,8 +87,11 @@ class Login extends React.Component<{}, LoginState> {
         }
 
         try {
-            //await auth.login(email,password); // Set React Context to isLoggedIn
-            func();
+            await auth.login(email,password);
+            
+            callback();
+            
+            this.props.history.push('/features/schedule');
         }
         catch ( error ) {
             if ( error.response.status === 401 ) {
@@ -112,17 +114,11 @@ class Login extends React.Component<{}, LoginState> {
                     <form className="auth-form">
                         <TextField onChange={this.handleEmailChange} className="auth-txt-field" label="Email" variant="filled" error={this.emailHasError()} helperText="Enter your email"/>
                         <PasswordInput onChange={this.handlePasswordChange} inputProps={{ maxLength: 32 }} className="auth-txt-field" error={this.passwordHasError()} helperText="Enter your password" label="Password"/>
-                        
-
                         <AuthContextConsumer>
                         {context => (
-                            <Button onClick={ e => this.handleSubmit(context.toggleAuth)} className="auth-btn" variant="contained" color="primary" size="medium">Login</Button>
+                            <Button onClick={ e => this.handleSubmit(context.login)} className="auth-btn" variant="contained" color="primary" size="medium">Login</Button>
                         )}
                         </AuthContextConsumer>
-                        
-                        
-
-                        
                         <FormHelperText className={`auth-err ${this.hasFormError() ? "" : "display-none"}`} error={true}>{this.getFormErrorText()}</FormHelperText>
                         <div className="non-important-btns-container">
                             <Link className="no-underline" to="/register">

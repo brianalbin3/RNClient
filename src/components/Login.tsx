@@ -1,5 +1,5 @@
 import React, { Component, useContext } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
@@ -18,6 +18,7 @@ import './Login.css';
 enum LoginFailureType {
     BAD_EMAIL_PASSWORD,
     INTERNAL_SERVER_ERROR,
+    ACCOUNT_LOCKED,
     NONE
 }
 
@@ -95,7 +96,15 @@ class Login extends React.Component<LoginProps, LoginState> {
         }
         catch ( error ) {
             if ( error.response.status === 401 ) {
-                this.setState({loginFailureType: LoginFailureType.BAD_EMAIL_PASSWORD});
+                if ( error.response.data.message === 'Email or password is incorrect' ) { // Keep text same as client
+                    this.setState({loginFailureType: LoginFailureType.BAD_EMAIL_PASSWORD});
+                }
+                else if ( error.response.data.message === 'Account locked' ) { // Keep text same as server
+                    this.setState({loginFailureType: LoginFailureType.ACCOUNT_LOCKED});
+                }
+                else {
+                    console.error("Unknown 401 status code response", error);
+                }
             }
             else if ( error.response.status === 500 ) {
                 this.setState({loginFailureType: LoginFailureType.INTERNAL_SERVER_ERROR});
@@ -107,6 +116,11 @@ class Login extends React.Component<LoginProps, LoginState> {
     }
 
     render() {
+
+        if ( this.state.loginFailureType === LoginFailureType.ACCOUNT_LOCKED ) {
+            return (<Redirect to="/forgotpassword"/>);
+        }
+
         return (
             <div className="auth-page-container">
                 <div className="auth-page">
@@ -124,7 +138,9 @@ class Login extends React.Component<LoginProps, LoginState> {
                             <Link className="no-underline" to="/register">
                                 <Button className="non-important-btn" color="primary">Create Account</Button>
                             </Link>
-                            <Button className="non-important-btn" color="primary">Forgot Password?</Button>
+                            <Link className="no-underline" to="/forgotpassword">
+                                <Button className="non-important-btn" color="primary">Forgot Password?</Button>
+                            </Link>
                         </div>
                     </form>
                 </div>

@@ -1,5 +1,4 @@
 import React, { createContext, useState, useContext } from 'react';
-// import { createBrowserHistory } from 'history';
 import { Route, BrowserRouter as Router, Switch } from 'react-router-dom';
 
 import ContactSettings from './components/ContactSettings';
@@ -11,6 +10,7 @@ import AccountSettings from './components/AccountSettings';
 import Splash from './components/Splash';
 import Login from './components/Login';
 import Register from './components/Register';
+import ForgotPassword from './components/ForgotPassword';
 
 import { AuthContextConsumer } from './contexts/authContext';
 
@@ -27,6 +27,7 @@ function App() {
       <Switch>
         <Route exact path="/register" component={Register} />
         <Route exact path="/login" component={Login} />
+        <Route exact path="/forgotpassword" component={ForgotPassword} />
         <Route exact path="/" component={Splash} />
         <PrivateRoute path="/features">
           <Main>

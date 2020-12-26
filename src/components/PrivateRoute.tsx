@@ -10,7 +10,6 @@ type PrivateRouteProps = { options?: any, component?: any, children?: any, path?
 
 class PrivateRoute extends React.Component<PrivateRouteProps, PrivateRouteState> {
     constructor(props: PrivateRouteProps) {
-      console.log("constructor private route");
       super(props);
     }
 

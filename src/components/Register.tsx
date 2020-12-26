@@ -109,7 +109,7 @@ class Register extends React.Component<RegisterProps, RegisterState> {
         return 'Include a letter, number, and special character';
     }
 
-    hasIternalServerError(): boolean {
+    hasInternalServerError(): boolean {
         return this.state.internalServerError;
     }
 
@@ -155,7 +155,7 @@ class Register extends React.Component<RegisterProps, RegisterState> {
                             <Button onClick={e => this.handleSubmit(context.login)} className="auth-btn" variant="contained" color="primary" size="medium">Register</Button>
                         )}
                         </AuthContextConsumer>
-                        <FormHelperText className={`auth-err ${this.hasIternalServerError() ? "" : "display-none"}`} error={true}>Uh-oh! A problem occured. Please refresh the page and try again.</FormHelperText>
+                        <FormHelperText className={`auth-err ${this.hasInternalServerError() ? "" : "display-none"}`} error={true}>Uh-oh! A problem occured. Please refresh the page and try again.</FormHelperText>
                         <div className="non-important-btns-container">
                             <Link className="no-underline" to="/login">
                                 <Button className="already-registered-btn non-important-btn" color="primary">Already Have an Account?</Button>

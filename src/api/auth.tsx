@@ -26,3 +26,4 @@ export const hasLoginCookie = (): boolean => {
     const cookies: Cookies = new Cookies();
     return cookies.get('jwt') ? true : false;
 }
+

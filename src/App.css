@@ -28,10 +28,10 @@
     padding-top: 8px;
     padding-bottom: 8px;
 }
-/* 
+
 .auth-page .auth-header {
     margin-top: 8px;
-} */
+}
 
 .auth-form {
     margin-top: 12px;
@@ -55,7 +55,7 @@
     margin-top: 12px;
 }
 
-.auth-form .non-important-btns-container {
+div .non-important-btns-container {
     margin-top: 32px;
     display: flex;
     justify-content: space-evenly;

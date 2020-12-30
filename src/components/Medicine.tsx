@@ -8,7 +8,7 @@ type MedicineProps = {
 
 }
 
-class Medicine extends React.Component<{}, MedicineState> {
+class Medicine extends React.Component<MedicineProps, MedicineState> {
     constructor(props: MedicineProps) {
         super(props);
     }

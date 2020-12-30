@@ -118,7 +118,7 @@ class Login extends React.Component<LoginProps, LoginState> {
     render() {
 
         if ( this.state.loginFailureType === LoginFailureType.ACCOUNT_LOCKED ) {
-            return (<Redirect to="/forgotpassword"/>);
+            return (<Redirect to="/findaccount"/>);
         }
 
         return (
@@ -138,7 +138,7 @@ class Login extends React.Component<LoginProps, LoginState> {
                             <Link className="no-underline" to="/register">
                                 <Button className="non-important-btn" color="primary">Create Account</Button>
                             </Link>
-                            <Link className="no-underline" to="/forgotpassword">
+                            <Link className="no-underline" to="/findaccount">
                                 <Button className="non-important-btn" color="primary">Forgot Password?</Button>
                             </Link>
                         </div>

@@ -10,7 +10,8 @@ import AccountSettings from './components/AccountSettings';
 import Splash from './components/Splash';
 import Login from './components/Login';
 import Register from './components/Register';
-import ForgotPassword from './components/ForgotPassword';
+import FindAccount from './components/FindAccount';
+import ResetPassword from './components/ResetPassword';
 
 import { AuthContextConsumer } from './contexts/authContext';
 
@@ -21,13 +22,12 @@ import './App.css';
 
 function App() {
   return (
-
-
     <Router>
       <Switch>
         <Route exact path="/register" component={Register} />
         <Route exact path="/login" component={Login} />
-        <Route exact path="/forgotpassword" component={ForgotPassword} />
+        <Route exact path="/findaccount" component={FindAccount} />
+        <Route exact path="/resetpassword" component={ResetPassword} />
         <Route exact path="/" component={Splash} />
         <PrivateRoute path="/features">
           <Main>

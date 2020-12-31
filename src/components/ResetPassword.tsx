@@ -72,7 +72,7 @@ class ResetPassword extends React.Component<ResetPasswordProps, ResetPasswordSta
                             <AccountCircle color="primary" className="find-account-icon" />
                             <div>{this.state.email}</div>
                         </Paper>
-                        {/* <div className="reset-instructions">Select how you would like to recieve the code.</div> */}
+                        <div className="reset-instructions">Select how you would like to recieve the code.</div>
                         <Divider className="contact-divider" />
                         <div className="contact">
                             <div>

@@ -11,6 +11,8 @@ import Splash from './components/Splash';
 import Login from './components/Login';
 import Register from './components/Register';
 import FindAccount from './components/FindAccount';
+import ResetMethod from './components/ResetMethod';
+import EnterCode from './components/EnterCode';
 import ResetPassword from './components/ResetPassword';
 
 import { AuthContextConsumer } from './contexts/authContext';
@@ -27,6 +29,8 @@ function App() {
         <Route exact path="/register" component={Register} />
         <Route exact path="/login" component={Login} />
         <Route exact path="/findaccount" component={FindAccount} />
+        <Route exact path="/pickresetmethod" component={ResetMethod} />
+        <Route exact path="/entercode" component={EnterCode} />
         <Route exact path="/resetpassword" component={ResetPassword} />
         <Route exact path="/" component={Splash} />
         <PrivateRoute path="/features">

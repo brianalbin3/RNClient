@@ -11,7 +11,9 @@ import * as userAPI from '../api/user';
 import './FindAccount.css';
 
 type FindAccountState = {
-    searchEmailFailureType: SearchEmailFailureType
+    email: string,
+    searchEmailFailureType: SearchEmailFailureType,
+    submitIsTouched: boolean
 }
 
 type FindAccountProps = {
@@ -26,25 +28,39 @@ enum SearchEmailFailureType {
 
 class FindAccount extends React.Component<FindAccountProps, FindAccountState> {
 
-    private emailRef: any; // TODO: Type
-
     constructor(props: FindAccountProps) {
         super(props);
 
-        this.state = { searchEmailFailureType: SearchEmailFailureType.NONE };
+        this.state = { email: '', searchEmailFailureType: SearchEmailFailureType.NONE, submitIsTouched: false };
 
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleEmailChange = this.handleEmailChange.bind(this);
+    }
 
-        this.emailRef = React.createRef();
+    handleEmailChange(e: any) {
+        const email = e.target.value;
+        this.setState({email});
+    }
+
+    emailHasError(): boolean {
+        const { submitIsTouched, email } = this.state;
+
+        return email.length === 0 && submitIsTouched;
     }
 
     async handleSubmit(e: any) {
-        const emailToSearch: string = this.emailRef.current.value;
+        const { email } = this.state;
+
+        this.setState({submitIsTouched: true});
+
+        if ( email.length === 0 ) {
+            return;
+        }
 
         try {
-            await userAPI.findAccount(emailToSearch);
-            this.setState({searchEmailFailureType: SearchEmailFailureType.NONE});
-            this.props.history.push(`/resetpassword?email=${emailToSearch}`)
+            await userAPI.findAccount(email);
+            this.setState({searchEmailFailureType: SearchEmailFailureType.NONE, submitIsTouched: false});
+            this.props.history.push(`/pickresetmethod?email=${email}`);
         }
         catch(error) {
             if ( error.response.status === 404 ) {
@@ -56,11 +72,11 @@ class FindAccount extends React.Component<FindAccountProps, FindAccountState> {
         }
     }
 
-    displayError(): boolean {
+    displayFormError(): boolean {
         return this.state.searchEmailFailureType !== SearchEmailFailureType.NONE;
     }
 
-    getErrorText(): string {
+    getFormErrorText(): string {
         if ( this.state.searchEmailFailureType === SearchEmailFailureType.ACCOUNT_NOT_FOUND ) {
             return 'We couldnt find that email.';
         }
@@ -79,9 +95,9 @@ class FindAccount extends React.Component<FindAccountProps, FindAccountState> {
                     <Typography className="auth-header" color="primary" variant="h4">Find Account</Typography>
                     <form className="auth-form">
                         <FormHelperText className="forgot-pw-desc">Enter your email to search for your account.</FormHelperText>
-                        <TextField inputRef={this.emailRef} className="auth-txt-field" label="Email" variant="filled"/>
+                        <TextField onChange={this.handleEmailChange} className="auth-txt-field" label="Email" variant="filled" error={this.emailHasError()} helperText="Enter your email"/>
                         <Button onClick={ this.handleSubmit } className="auth-btn" variant="contained" color="primary" size="medium">Search</Button>
-                        <FormHelperText className={`auth-err ${this.displayError() ? "" : "display-none"}`} error={true}>{this.getErrorText()}</FormHelperText>
+                        <FormHelperText className={`auth-err ${this.displayFormError() ? "" : "display-none"}`} error={true}>{this.getFormErrorText()}</FormHelperText>
                     </form>
                     <div className="non-important-btns-container">
                         <Link className="no-underline" to="/login">

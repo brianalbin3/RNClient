@@ -20,7 +20,6 @@ import './Register.css';
 type RegisterState = {
     email: string,
     password: string,
-    emailIsTouched: boolean,
     passwordIsTouched: boolean,
     submitIsTouched: boolean,
     emailIsTaken: boolean,
@@ -35,7 +34,7 @@ class Register extends React.Component<RegisterProps, RegisterState> {
     constructor(props: RegisterProps) {
         super(props);
 
-        this.state = { email: '', password: '', emailIsTouched: false, passwordIsTouched: false, submitIsTouched: false, emailIsTaken: false, internalServerError: false };
+        this.state = { email: '', password: '', passwordIsTouched: false, submitIsTouched: false, emailIsTaken: false, internalServerError: false };
         
         this.handleEmailChange = this.handleEmailChange.bind(this);
         this.handlePasswordChange = this.handlePasswordChange.bind(this);
@@ -44,7 +43,7 @@ class Register extends React.Component<RegisterProps, RegisterState> {
 
     handleEmailChange(e: any) {
         const email = e.target.value;
-        this.setState({email, emailIsTouched: true, emailIsTaken: false});
+        this.setState({email, emailIsTaken: false});
     }
 
     isValidEmail(): boolean {
@@ -61,6 +60,7 @@ class Register extends React.Component<RegisterProps, RegisterState> {
         return password.length >= 8 && password.length <= 32;
     }
 
+    // TODO: FIX THIS
     // Checks if the password contains numbers, letters, and special characters
     passwordIsValid(): boolean {
         const password = this.state.password;

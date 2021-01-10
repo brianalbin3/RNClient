@@ -53,6 +53,7 @@ class Login extends React.Component<LoginProps, LoginState> {
         const { email, submitIsTouched } = this.state;
         return email.length === 0 && submitIsTouched;
     }
+    
     handlePasswordChange(e: any) {
         const password = e.target.value;
         this.setState({password});

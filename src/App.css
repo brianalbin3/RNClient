@@ -7,6 +7,10 @@
     text-decoration: none;
 }
 
+.desktop-only {
+    display: none;
+}
+
 .auth-page-container {
     width: 100%;
     height: 100%;
@@ -69,7 +73,17 @@ div .non-important-btns-container {
     margin-right: 0;
 }
 
+
+.auth-instructions {
+    margin-bottom: 12px;
+    font-size: 14px;
+}
+
 @media screen and (min-width: 768px) {
+    .desktop-only {
+        display: block;
+    }
+
     .auth-page-container {
         align-items: center;
     }
@@ -88,6 +102,10 @@ div .non-important-btns-container {
     }
 
     .auth-form {
-        width: 350px;
+        width: 325px;
+    }
+
+    .auth-btn {
+        width: 100%;
     }
 }

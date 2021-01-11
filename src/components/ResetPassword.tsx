@@ -167,14 +167,11 @@ class ResetPassword extends React.Component<ResetPasswordProps, ResetPasswordSta
                     <form className="auth-form">
                         <div className="auth-instructions desktop-only">Enter a new password between 8 and 32 characters. Include at least one uppercase letter, lowercase letter, number, and special character. </div>
                         <PasswordInput onChange={this.handlePasswordChange} inputProps={{ maxLength: 32 }} className="auth-txt-field" error={this.displayPasswordError()} helperText={this.getPasswordHelperText()} label="New Password"/>
-                        
-                        
                         <AuthContextConsumer>
                         {context => (
                             <Button onClick={ e => this.handleSubmit(context.login) } className="auth-btn" variant="contained" color="primary" size="medium">Change Password</Button>
                         )}
                         </AuthContextConsumer>
-                        
                         <FormHelperText className={`auth-err ${this.displayFormError() ? "" : "display-none"}`} error={this.displayFormError()}>{this.getFormErrorText()}</FormHelperText>
                         <div className={`change-pw-success ${passwordChangeSuccess ? "" : "display-none"}`}>
                             <div className="change-pw-success-txt">Password Changed</div>

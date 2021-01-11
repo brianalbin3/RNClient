@@ -11,8 +11,8 @@ import * as userAPI from '../api/user';
 import './FindAccount.css';
 
 type FindAccountState = {
-    email: string,
-    searchEmailFailureType: SearchEmailFailureType,
+    contact: string,
+    searchAccountFailureType: SearchAccountFailureType,
     submitIsTouched: boolean
 }
 
@@ -20,7 +20,7 @@ type FindAccountProps = {
     history: any
 }
 
-enum SearchEmailFailureType {
+enum SearchAccountFailureType {
     ACCOUNT_NOT_FOUND,
     INTERNAL_SERVER_ERROR,
     NONE
@@ -31,56 +31,57 @@ class FindAccount extends React.Component<FindAccountProps, FindAccountState> {
     constructor(props: FindAccountProps) {
         super(props);
 
-        this.state = { email: '', searchEmailFailureType: SearchEmailFailureType.NONE, submitIsTouched: false };
+        this.state = { contact: '', searchAccountFailureType: SearchAccountFailureType.NONE, submitIsTouched: false };
 
         this.handleSubmit = this.handleSubmit.bind(this);
-        this.handleEmailChange = this.handleEmailChange.bind(this);
+        this.handleContactChange = this.handleContactChange.bind(this);
     }
 
-    handleEmailChange(e: any) {
-        const email = e.target.value;
-        this.setState({email});
+    handleContactChange(e: any) {
+        const contact = e.target.value;
+        this.setState({contact});
     }
 
-    emailHasError(): boolean {
-        const { submitIsTouched, email } = this.state;
+    contactHasError(): boolean {
+        const { submitIsTouched, contact } = this.state;
 
-        return email.length === 0 && submitIsTouched;
+        return contact.length === 0 && submitIsTouched;
     }
 
     async handleSubmit(e: any) {
-        const { email } = this.state;
+        const { contact } = this.state;
 
         this.setState({submitIsTouched: true});
 
-        if ( email.length === 0 ) {
+        if ( contact.length === 0 ) {
             return;
         }
 
         try {
-            await userAPI.findAccount(email);
-            this.setState({searchEmailFailureType: SearchEmailFailureType.NONE, submitIsTouched: false});
-            this.props.history.push(`/pickresetmethod?email=${email}`);
+            const contactInfo: any = await (await userAPI.findAccount(contact)).data.contactInformation; // TODO: Create model for this
+            console.log("contactInfo",contactInfo)
+            this.setState({searchAccountFailureType: SearchAccountFailureType.NONE, submitIsTouched: false});
+            this.props.history.push(`/pickresetmethod?email=${contactInfo.email}&phone=${contactInfo.phone}`); // TODO: Change this
         }
         catch(error) {
             if ( error.response.status === 404 ) {
-                this.setState({searchEmailFailureType: SearchEmailFailureType.ACCOUNT_NOT_FOUND});
+                this.setState({searchAccountFailureType: SearchAccountFailureType.ACCOUNT_NOT_FOUND});
             }
             else if ( error.response.status === 500 ) {
-                this.setState({searchEmailFailureType: SearchEmailFailureType.INTERNAL_SERVER_ERROR});
+                this.setState({searchAccountFailureType: SearchAccountFailureType.INTERNAL_SERVER_ERROR});
             }
         }
     }
 
     displayFormError(): boolean {
-        return this.state.searchEmailFailureType !== SearchEmailFailureType.NONE;
+        return this.state.searchAccountFailureType !== SearchAccountFailureType.NONE;
     }
 
     getFormErrorText(): string {
-        if ( this.state.searchEmailFailureType === SearchEmailFailureType.ACCOUNT_NOT_FOUND ) {
-            return 'We couldnt find that email.';
+        if ( this.state.searchAccountFailureType === SearchAccountFailureType.ACCOUNT_NOT_FOUND ) {
+            return 'We couldnt find an account with that contact information.';
         }
-        else if ( this.state.searchEmailFailureType === SearchEmailFailureType.INTERNAL_SERVER_ERROR ) {
+        else if ( this.state.searchAccountFailureType === SearchAccountFailureType.INTERNAL_SERVER_ERROR ) {
             return 'Internal error. Refresh the page.';
         }
 
@@ -94,8 +95,8 @@ class FindAccount extends React.Component<FindAccountProps, FindAccountState> {
                 <div className="auth-page">
                     <Typography className="auth-header" color="primary" variant="h4">Find Account</Typography>
                     <form className="auth-form">
-                        <FormHelperText className="forgot-pw-desc">Enter your email to search for your account.</FormHelperText>
-                        <TextField onChange={this.handleEmailChange} className="auth-txt-field" label="Email" variant="filled" error={this.emailHasError()} helperText="Enter your email"/>
+                        <FormHelperText className="forgot-pw-desc">Enter your email or phone number to search for your account.</FormHelperText>
+                        <TextField onChange={this.handleContactChange} className="auth-txt-field" label="Email or Phone" variant="filled" error={this.contactHasError()} helperText="Enter your email or phone number"/>
                         <Button onClick={ this.handleSubmit } className="auth-btn" variant="contained" color="primary" size="medium">Search</Button>
                         <FormHelperText className={`auth-err ${this.displayFormError() ? "" : "display-none"}`} error={true}>{this.getFormErrorText()}</FormHelperText>
                     </form>

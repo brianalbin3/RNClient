@@ -16,7 +16,7 @@ import AccountCircle from '@material-ui/icons/AccountCircle';
 
 import * as userAPI from '../api/user';
 
-import './ResetMethod.css';
+import './PickResetMethod.css';
 
 type PickResetMethodState = {
     email: string,
@@ -42,14 +42,12 @@ class PickResetMethod extends React.Component<PickResetMethodProps, PickResetMet
         super(props);
 
         let email: any = '';
+        let phone: any = '';
 
-        if ( qs.parse(this.props.location.search, { ignoreQueryPrefix: true }) ) {
+        if (qs.parse(this.props.location.search, { ignoreQueryPrefix: true })) {
             email = qs.parse(this.props.location.search, { ignoreQueryPrefix: true }).email;
+            phone = qs.parse(this.props.location.search, { ignoreQueryPrefix: true }).phone;
         }
-
-        let phone: any = '410-***-***0';
-
-        // TODO: Phone
 
         this.state = { email, selectedContactMethod: 'email', phone, pickResetMethodFailureType: PickResetMethodFailureType.NONE };
 
@@ -58,7 +56,7 @@ class PickResetMethod extends React.Component<PickResetMethodProps, PickResetMet
     }
 
     handleChange(e: React.ChangeEvent<HTMLInputElement>) {
-        this.setState({selectedContactMethod: e.target.value});
+        this.setState({ selectedContactMethod: e.target.value });
     }
 
     displayFormError(): boolean {
@@ -66,45 +64,69 @@ class PickResetMethod extends React.Component<PickResetMethodProps, PickResetMet
     }
 
     getFormErrorText(): string {
-        if ( this.state.pickResetMethodFailureType === PickResetMethodFailureType.ACCOUNT_NOT_FOUND ) {
+        if (this.state.pickResetMethodFailureType === PickResetMethodFailureType.ACCOUNT_NOT_FOUND) {
             return 'We couldnt find that email.';
         }
-        else if ( this.state.pickResetMethodFailureType === PickResetMethodFailureType.INTERNAL_SERVER_ERROR ) {
+        else if (this.state.pickResetMethodFailureType === PickResetMethodFailureType.INTERNAL_SERVER_ERROR) {
             return 'Internal error. Refresh the page.';
         }
 
         return '';
     }
-      
+
     async handleSubmit(e: any) {
         try {
             const { email, phone, selectedContactMethod } = this.state;
 
-            this.setState({pickResetMethodFailureType: PickResetMethodFailureType.NONE});
+            this.setState({ pickResetMethodFailureType: PickResetMethodFailureType.NONE });
 
             await userAPI.sendResetCode(email, selectedContactMethod);
 
-            this.setState({pickResetMethodFailureType: PickResetMethodFailureType.NONE});
-
-            if (selectedContactMethod === 'email') {
-                this.props.history.push(`/entercode?email=${email}&selectedContactMethod=${selectedContactMethod}`);
-            }
-            else {
-                this.props.history.push(`/entercode?email=${email}&phone=${phone}&selectedContactMethod=${selectedContactMethod}`);
-            }
+            this.props.history.push(`/entercode?email=${email}&phone=${phone}&selectedContactMethod=${selectedContactMethod}`);
         }
-        catch(error) {
-            if ( error.response.status === 404 ) {
-                this.setState({pickResetMethodFailureType: PickResetMethodFailureType.ACCOUNT_NOT_FOUND}); // This should never actually happen, do we really need it?
+        catch (error) {
+            if (error.response.status === 404) {
+                this.setState({ pickResetMethodFailureType: PickResetMethodFailureType.ACCOUNT_NOT_FOUND }); // This should never actually happen, do we really need it?
             }
-            else if ( error.response.status === 500 ) {
-                this.setState({pickResetMethodFailureType: PickResetMethodFailureType.INTERNAL_SERVER_ERROR});
+            else if (error.response.status === 500) {
+                this.setState({ pickResetMethodFailureType: PickResetMethodFailureType.INTERNAL_SERVER_ERROR });
             }
         }
     }
-
-    // TODO: Think of a better header title, maybe Pick Reset Method?
+    
     render() {
+        const { email, phone } = this.state;
+
+        let emailOption = (
+            <div>
+                <div className="contact">
+                    <div>
+                        <div className="contact-method">Send Code Via Email</div>
+                        <div className="contact-detail">{this.state.email}</div>
+                    </div>
+                    <div className="radio-container">
+                        <Radio color="primary" checked={this.state.selectedContactMethod === 'email'} onChange={this.handleChange} value="email" />
+                    </div>
+                </div>
+                <Divider className="contact-divider" />
+            </div>
+        );
+
+        let phoneOption = (
+            <div>
+                <div className="contact">
+                    <div>
+                        <div className="contact-method">Send Code Via SMS</div>
+                        <div className="contact-detail">{this.state.phone}</div>
+                    </div>
+                    <div className="radio-container">
+                        <Radio color="primary" checked={this.state.selectedContactMethod === 'phone'} onChange={this.handleChange} value="phone" />
+                    </div>
+                </div>
+                <Divider className="contact-divider" />
+            </div>
+        );
+
         return (
             <div className="auth-page-container">
                 <div className="auth-page">
@@ -116,27 +138,9 @@ class PickResetMethod extends React.Component<PickResetMethodProps, PickResetMet
                         </Paper>
                         <div className="auth-instructions desktop-only">Select how you would like to recieve the code to reset your password.</div>
                         <Divider className="contact-divider" />
-                        <div className="contact">
-                            <div>
-                                <div className="contact-method">Send Code Via Email</div>
-                                <div className="contact-detail">{this.state.email}</div>
-                            </div>
-                            <div className="radio-container">
-                                <Radio color="primary" checked={this.state.selectedContactMethod === 'email'} onChange={this.handleChange} value="email"/>
-                            </div>
-                        </div>
-                        <Divider className="contact-divider" />
-                        <div className="contact">
-                            <div>
-                                <div className="contact-method">Send Code Via SMS</div>
-                                <div className="contact-detail">410-017-6440</div>
-                            </div>
-                            <div className="radio-container">
-                                <Radio color="primary" checked={this.state.selectedContactMethod === 'phone'} onChange={this.handleChange} value="phone"/>
-                            </div>
-                        </div>
-                        <Divider className="contact-divider" />
-                        <Button onClick={ this.handleSubmit } className="auth-btn" variant="contained" color="primary" size="medium">Send Code</Button>
+                        {email && emailOption}
+                        {phone && phoneOption}
+                        <Button onClick={this.handleSubmit} className="auth-btn" variant="contained" color="primary" size="medium">Send Code</Button>
                         <FormHelperText className={`auth-err ${this.displayFormError() ? "" : "display-none"}`} error={true}>{this.getFormErrorText()}</FormHelperText>
                     </form>
                     <div className="non-important-btns-container">

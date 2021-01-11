@@ -91,8 +91,6 @@ class EnterCode extends React.Component<EnterCodeProps, EnterCodeState> {
 
         return !this.codeIsValid();
     }
-    
-    // TODO: Email length error
       
     async handleSubmit(e: any) {
         this.setState({submitIsTouched: true});
@@ -151,13 +149,23 @@ class EnterCode extends React.Component<EnterCodeProps, EnterCodeState> {
             return 'This code has expired.';
         }
         else if ( enterCodeFailureType === EnterCodeFailureType.TOO_MANY_ATTEMPTS ) {
-            return 'Too many failed attempts. Send another code.';
+            return 'Too many failed attempts.';
         }
         else if ( enterCodeFailureType === EnterCodeFailureType.INTERNAL_SERVER_ERROR ) {
             return 'Internal server error. Please refresh the page and try again.';
         }
 
         return '';
+    }
+
+    displayResendCodeLink(): boolean {
+        const enterCodeFailureType: EnterCodeFailureType = this.state.enterCodeFailureType;
+
+        return  enterCodeFailureType === EnterCodeFailureType.TOO_MANY_ATTEMPTS || enterCodeFailureType === EnterCodeFailureType.CODE_EXPIRED;
+    }
+
+    resendCodeClicked(e: any) { // TODO: Type
+        console.log("resendCodeClicked")
     }
 
     render() {
@@ -171,11 +179,10 @@ class EnterCode extends React.Component<EnterCodeProps, EnterCodeState> {
                         <div className="auth-instructions desktop-only">Please check your {selectedContactMethod} for the 8 digit code that was sent to {contactDetail}.</div>
                         <TextField onChange={this.handleCodeChange} className="auth-txt-field" label="########" variant="filled" helperText={this.getCodeHelperText()} error={this.displayCodeTextFieldError()}/>
                         <Button onClick={ this.handleSubmit } className="auth-btn" variant="contained" color="primary" size="medium">Enter Code</Button>
-                        <FormHelperText className={`auth-err ${this.displayFormError() ? "" : "display-none"}`} error={true}>{this.getFormErrorText()}</FormHelperText>
+                        <FormHelperText className={`auth-err ${this.displayFormError() ? "" : "display-none"}`} error={true}>{this.getFormErrorText()}<span className={`resend-code ${this.displayResendCodeLink() ? "" : "display-none"}`} onClick={this.resendCodeClicked}>Resend Code?</span></FormHelperText>
                     </form>
                     <div className="non-important-btns-container">
-                        {/* TODO: Link needs parameters */}
-                        <Link className="no-underline" to={`/pickresetmethod?email=${email}`}>
+                        <Link className="no-underline" to={`/pickresetmethod?email=${email}&phone=${phone}`}>
                             <Button className="enter-code-btn non-important-btn" color="primary">Try Another Way</Button>
                         </Link>
                     </div>

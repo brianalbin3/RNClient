@@ -1,6 +1,5 @@
-import React, { Component, useContext } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
-import { useLocation } from 'react-router-dom';
 
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
@@ -14,12 +13,13 @@ import * as userAPI from '../api/user';
 
 import './EnterCode.css';
 
-enum EnterCodeFailureType {
+enum EnterCodeStatusType {
     NONE,
     INVALID_PASSCODE,
     CODE_EXPIRED,
     TOO_MANY_ATTEMPTS,
-    INTERNAL_SERVER_ERROR
+    INTERNAL_SERVER_ERROR,
+    RESENT_CODE
 }
 
 type EnterCodeState = {
@@ -28,7 +28,7 @@ type EnterCodeState = {
     phone: string,
     submitIsTouched: boolean,
     code: string,
-    enterCodeFailureType: EnterCodeFailureType
+    enterCodeStatusType: EnterCodeStatusType
 }
 
 type EnterCodeProps = {
@@ -57,10 +57,11 @@ class EnterCode extends React.Component<EnterCodeProps, EnterCodeState> {
             }
         }
 
-        this.state = { selectedContactMethod, email, phone, submitIsTouched: false, code: '', enterCodeFailureType: EnterCodeFailureType.NONE };
+        this.state = { selectedContactMethod, email, phone, submitIsTouched: false, code: '', enterCodeStatusType: EnterCodeStatusType.NONE };
 
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleCodeChange = this.handleCodeChange.bind(this);
+        this.resendCodeClicked = this.resendCodeClicked.bind(this);
     }
 
     handleCodeChange(e: any) {
@@ -105,7 +106,7 @@ class EnterCode extends React.Component<EnterCodeProps, EnterCodeState> {
 
             await userAPI.checkResetCode(email, code);
 
-            this.setState({enterCodeFailureType: EnterCodeFailureType.NONE});
+            this.setState({enterCodeStatusType: EnterCodeStatusType.NONE});
 
             // TODO: should I just do history.back or something
             if (selectedContactMethod === 'email') {
@@ -120,52 +121,68 @@ class EnterCode extends React.Component<EnterCodeProps, EnterCodeState> {
 
             if ( error.response.status === 401 ) {
                 if ( error.response.data.message === 'Invalid email/passcode combination') {
-                    this.setState({enterCodeFailureType: EnterCodeFailureType.INVALID_PASSCODE});
+                    this.setState({enterCodeStatusType: EnterCodeStatusType.INVALID_PASSCODE});
                 }
                 else if ( error.response.data.message === 'Reset code has expired' ) {
-                    this.setState({enterCodeFailureType: EnterCodeFailureType.CODE_EXPIRED});
+                    this.setState({enterCodeStatusType: EnterCodeStatusType.CODE_EXPIRED});
                 }
                 else if ( error.response.data.message === 'Too many failed attempts' ) {
-                    this.setState({enterCodeFailureType: EnterCodeFailureType.TOO_MANY_ATTEMPTS});
+                    this.setState({enterCodeStatusType: EnterCodeStatusType.TOO_MANY_ATTEMPTS});
                 }
             }
             else { //500, 'The server encountered an unknown error.', 400, Email and/or resetCode not sent (shouldn't ever happen)
-                this.setState({enterCodeFailureType: EnterCodeFailureType.INTERNAL_SERVER_ERROR});
+                this.setState({enterCodeStatusType: EnterCodeStatusType.INTERNAL_SERVER_ERROR});
             }
         }
     }
 
-    displayFormError(): boolean {
-        return this.state.enterCodeFailureType !== EnterCodeFailureType.NONE;
+    displayFormHelperText(): boolean {
+        return this.state.enterCodeStatusType !== EnterCodeStatusType.NONE;
     }
 
-    getFormErrorText(): string {
-        const enterCodeFailureType: EnterCodeFailureType = this.state.enterCodeFailureType;
+    getFormHelperText(): string {
+        const { enterCodeStatusType, selectedContactMethod, email, phone } = this.state;
 
-        if ( enterCodeFailureType === EnterCodeFailureType.INVALID_PASSCODE ) {
+        if ( enterCodeStatusType === EnterCodeStatusType.INVALID_PASSCODE ) {
             return 'Wrong code, try again.';
         }
-        else if ( enterCodeFailureType === EnterCodeFailureType.CODE_EXPIRED ) {
+        else if ( enterCodeStatusType === EnterCodeStatusType.CODE_EXPIRED ) {
             return 'This code has expired.';
         }
-        else if ( enterCodeFailureType === EnterCodeFailureType.TOO_MANY_ATTEMPTS ) {
+        else if ( enterCodeStatusType === EnterCodeStatusType.TOO_MANY_ATTEMPTS ) {
             return 'Too many failed attempts.';
         }
-        else if ( enterCodeFailureType === EnterCodeFailureType.INTERNAL_SERVER_ERROR ) {
+        else if ( enterCodeStatusType === EnterCodeStatusType.INTERNAL_SERVER_ERROR ) {
             return 'Internal server error. Please refresh the page and try again.';
+        }
+        else if ( enterCodeStatusType === EnterCodeStatusType.RESENT_CODE) {
+            return `Another code has been sent to ${selectedContactMethod === 'email' ? email : phone}`;
         }
 
         return '';
     }
 
-    displayResendCodeLink(): boolean {
-        const enterCodeFailureType: EnterCodeFailureType = this.state.enterCodeFailureType;
-
-        return  enterCodeFailureType === EnterCodeFailureType.TOO_MANY_ATTEMPTS || enterCodeFailureType === EnterCodeFailureType.CODE_EXPIRED;
+    formHelperTextIsError(): boolean {
+        return this.state.enterCodeStatusType !== EnterCodeStatusType.RESENT_CODE;
     }
 
-    resendCodeClicked(e: any) { // TODO: Type
-        console.log("resendCodeClicked")
+    displayResendCodeLink(): boolean {
+        const enterCodeStatusType: EnterCodeStatusType = this.state.enterCodeStatusType;
+
+        return  enterCodeStatusType === EnterCodeStatusType.TOO_MANY_ATTEMPTS || enterCodeStatusType === EnterCodeStatusType.CODE_EXPIRED;
+    }
+
+    async resendCodeClicked(e: any) { // TODO: Type
+        const { email, selectedContactMethod } = this.state;
+
+        try {
+            await userAPI.sendResetCode(email, selectedContactMethod);
+
+            this.setState({enterCodeStatusType: EnterCodeStatusType.RESENT_CODE});   
+        }
+        catch (error) {
+            this.setState({ enterCodeStatusType: EnterCodeStatusType.INTERNAL_SERVER_ERROR });
+        }
     }
 
     render() {
@@ -179,7 +196,7 @@ class EnterCode extends React.Component<EnterCodeProps, EnterCodeState> {
                         <div className="auth-instructions desktop-only">Please check your {selectedContactMethod} for the 8 digit code that was sent to {contactDetail}.</div>
                         <TextField onChange={this.handleCodeChange} className="auth-txt-field" label="########" variant="filled" helperText={this.getCodeHelperText()} error={this.displayCodeTextFieldError()}/>
                         <Button onClick={ this.handleSubmit } className="auth-btn" variant="contained" color="primary" size="medium">Enter Code</Button>
-                        <FormHelperText className={`auth-err ${this.displayFormError() ? "" : "display-none"}`} error={true}>{this.getFormErrorText()}<span className={`resend-code ${this.displayResendCodeLink() ? "" : "display-none"}`} onClick={this.resendCodeClicked}>Resend Code?</span></FormHelperText>
+                        <FormHelperText className={`auth-err ${this.displayFormHelperText() ? "" : "display-none"}`} error={this.formHelperTextIsError()}>{this.getFormHelperText()}<span className={`resend-code ${this.displayResendCodeLink() ? "" : "display-none"}`} onClick={this.resendCodeClicked}>Resend Code?</span></FormHelperText>
                     </form>
                     <div className="non-important-btns-container">
                         <Link className="no-underline" to={`/pickresetmethod?email=${email}&phone=${phone}`}>

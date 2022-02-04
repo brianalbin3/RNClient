@@ -1,4 +1,4 @@
-import React, { ReactChildren, ReactChild } from 'react';
+import React from 'react';
 
 
 import Header from './Header';
@@ -9,18 +9,22 @@ interface MainProps {
 
 interface MainState {}
 
-class Main extends React.Component <{}, MainState > {
-  constructor(props: MainProps) {
-    super(props);
-}
+class Main extends React.Component <MainProps, MainState > {
 
   render() {
     return (
+      /*
+      TODO: Add to below div
+display: flex;
+flex-direction: column;
+height: 100%;
+      */
       <div>
         <Header/>
-        <main>{this.props.children}</main>
+        <main>{this.props.children}</main> 
       </div>
     );
+    // TODO: add flex: 1 to main
   }
 }
 

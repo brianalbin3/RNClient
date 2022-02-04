@@ -1,14 +1,10 @@
-import React, { Component, useContext } from 'react';
-import { Link } from 'react-router-dom';
-import { useLocation } from 'react-router-dom';
+import React from 'react';
 import { AuthContextConsumer } from '../contexts/authContext';
 
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
-import TextField from '@material-ui/core/TextField';
 import FormHelperText from '@material-ui/core/FormHelperText';
 
-import DoneIcon from '@material-ui/icons/Done';
 import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline';
 
 import qs from 'qs';

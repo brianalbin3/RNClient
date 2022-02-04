@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -12,18 +12,11 @@ import { NavLink } from 'react-router-dom';
 
 import './Header.css';
 
-type HeaderState = {
+type HeaderState = {}
 
-}
+type HeaderProps = {}
 
-type HeaderProps = {
-
-}
-
-class Header extends React.Component<{}, HeaderState> {
-    constructor(props: HeaderProps) {
-        super(props);
-    }
+class Header extends React.Component<HeaderProps, HeaderState> {
 
     render() {
         return (

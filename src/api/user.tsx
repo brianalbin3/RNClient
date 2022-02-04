@@ -1,5 +1,5 @@
 
-import axios, { AxiosError, AxiosResponse, AxiosRequestConfig } from 'axios';
+import axios from 'axios';
 
 
 

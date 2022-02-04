@@ -9,12 +9,13 @@ import { AuthContextProvider } from "./contexts/authContext";
 import theme from './theme';
 
 ReactDOM.render(
-  <React.StrictMode>
+  //<React.StrictMode>
     <AuthContextProvider>
       <ThemeProvider theme={theme}>
         <App />
       </ThemeProvider>
-    </AuthContextProvider>
-  </React.StrictMode>,
+    </AuthContextProvider>,
+  //</React.StrictMode>
+
   document.getElementById('root')
 );

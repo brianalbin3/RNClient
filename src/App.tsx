@@ -1,4 +1,3 @@
-import React, { createContext, useState, useContext } from 'react';
 import { Route, BrowserRouter as Router, Switch } from 'react-router-dom';
 
 import ContactSettings from './components/ContactSettings';
@@ -14,8 +13,6 @@ import FindAccount from './components/FindAccount';
 import PickResetMethod from './components/PickResetMethod';
 import EnterCode from './components/EnterCode';
 import ResetPassword from './components/ResetPassword';
-
-import { AuthContextConsumer } from './contexts/authContext';
 
 import PrivateRoute from './components/PrivateRoute';
 

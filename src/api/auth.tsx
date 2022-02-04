@@ -1,6 +1,6 @@
 // TODO: Should I rename this?
 
-import axios, { AxiosError, AxiosResponse } from 'axios';
+import axios from 'axios';
 
 import Cookies from 'universal-cookie';
 

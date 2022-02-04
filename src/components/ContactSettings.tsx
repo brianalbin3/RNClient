@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React  from 'react';
 
 type ContactSettingsState = {
 
@@ -8,7 +8,7 @@ type ContactSettingsProps = {
 
 }
 
-class ContactSettings extends React.Component<{}, ContactSettingsState> {
+class ContactSettings extends React.Component<ContactSettingsProps, ContactSettingsState> {
     constructor(props: ContactSettingsProps) {
         super(props);
     }

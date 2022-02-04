@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Route, Redirect  } from 'react-router-dom';
 
 import { AuthContextConsumer } from '../contexts/authContext';
@@ -9,9 +9,6 @@ type PrivateRouteState = {}
 type PrivateRouteProps = { options?: any, component?: any, children?: any, path?: any }
 
 class PrivateRoute extends React.Component<PrivateRouteProps, PrivateRouteState> {
-    constructor(props: PrivateRouteProps) {
-      super(props);
-    }
 
     render() {
       const { options, component, children } = this.props;

@@ -1,14 +1,10 @@
-import React, { Component } from 'react';
+import React from 'react';
 
-type ScheduleState = {
-  
-}
+type ScheduleState = {}
 
-type ScheduleProps = {
+type ScheduleProps = {}
 
-}
-
-class Schedule extends React.Component<{}, ScheduleState> {
+class Schedule extends React.Component<ScheduleProps, ScheduleState> {
     constructor(props: ScheduleProps) {
         super(props);
     }

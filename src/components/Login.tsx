@@ -1,4 +1,4 @@
-import React, { Component, useContext } from 'react';
+import React from 'react';
 import { Link, Redirect } from 'react-router-dom';
 
 import Typography from '@material-ui/core/Typography';

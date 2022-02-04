@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import Button from '@material-ui/core/Button';
 
 
@@ -7,9 +7,7 @@ import * as auth from '../api/auth';
 
 import { AuthContextConsumer } from '../contexts/authContext';
 
-type AccountSettingsState = {
-  
-}
+type AccountSettingsState = {}
 
 type AccountSettingsProps = {
     history: any;
